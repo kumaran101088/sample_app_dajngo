@@ -16,16 +16,17 @@ def success_view(request):
     except:
         pass
     try:
-        blob.upload_from_filename('MOCK_DATA.csv')
+        blob.upload_from_filename('static/MOCK_DATA.csv')
     except:
         return render(request, 'html_files/fail.html')
     try:
-        os.remove('MOCK_DATA.csv')
+        os.remove('static/MOCK_DATA.csv')
     except:
         pass
     return render(request, 'html_files/success.html')
 
 def member_upload_view(request):
+
     if request.method == 'POST':
         print('BEFORE convert file')
         read_convert_file(request.FILES.get('file'))
