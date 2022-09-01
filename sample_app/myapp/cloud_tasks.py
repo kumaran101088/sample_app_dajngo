@@ -51,5 +51,8 @@ def read_convert_file(filename):
 
     df['medication_new'] = medication_new
     print('BEFORE')
-    df.to_csv('static/MOCK_DATA.csv')
+    try:
+        df.to_csv('MOCK_DATA.csv')
+    except Exception as e:
+        print(e)
     print('AFTER')
