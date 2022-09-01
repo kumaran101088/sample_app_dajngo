@@ -11,6 +11,7 @@ def create_task(request):
     """ A simple view that triggers the task """
     task = "Example Task"
     send_task(url="/task/", payload=task)
+    print('Task created')
     return JsonResponse({'message': "task created"})
 
 
@@ -19,3 +20,5 @@ def task_view(request):
     payload = request.body.decode('utf-8')
     time.sleep(20)
     print(f"{payload} is completed")
+    print('task completed')
+    return JsonResponse({'payload' :payload})
