@@ -1,8 +1,8 @@
 from django.urls import path, include
-from .views import home, task_view, create_task
+from .views import member_upload_view, success_view
 
 urlpatterns = [
-    path('', home),
-    path('create/', create_task, name='create_task'),
-    path("task/", task_view, name="task_view")
+    path('upload_members/', member_upload_view, name='upload_members'),
+    path('success/', success_view, name='success_view')
+
 ]

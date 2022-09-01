@@ -7,6 +7,11 @@
     <title>Home</title>
 </head>
 <body>
-    
+    <br>
+     <form method="post" enctype="multipart/form-data">
+         {% csrf_token %}
+         <input type="file" name="file" id="file">
+         <button type="submit">Upload Data</button>
+     </form>
 </body>
 </html>

@@ -1,36 +1,54 @@
-from django.conf import settings
-from google.cloud import tasks_v2beta3
-import json
+import pandas as pd
 
-client = tasks_v2beta3.CloudTasksClient()
+def read_convert_file(filename):
+    df = pd.read_csv(filename, low_memory=False)
 
-def send_task(url, http_method='POST', payload=None):
-    """ Send task to be executed """
+    def convert_bp(value):
+        try:
+            value = int(abs(value))
+        except:
+            value = 120
+        if value == 0:
+            value = 100
+        elif (value == 1) or (value == 2):
+            value = value * 100
+        elif (value >= 3) and (value <= 24):
+            value = value * 10
+        elif value > 240:
+            value = 220
+        return value
 
-    # construct the queue
-    parent = client.queue_path(settings.PROJECT_NAME, 
-             settings.QUEUE_REGION, queue=settings.QUEUE_ID)
+    df['ap_hi_new'] = df['ap_hi'].apply(convert_bp)
+    df['ap_lo_new'] = df['ap_lo'].apply(convert_bp)
 
-    # construct the request body
-    task = {
-        'app_engine_http_request': {
-            'http_method': http_method,
-            'relative_uri': url
-        }
-    }
+    for row in range(0, len(df)):
+        if df.loc[row, 'ap_hi_new'] < 30:
+            print(df.loc[row, 'ap_hi_new'])
+        elif df.loc[row, 'ap_hi_new'] > 240:
+            print(row)
+            print(df.loc[row, 'ap_hi_new'])
 
-    if isinstance(payload, dict):
-        # convert dict to JSON string
-        payload = json.dumps(payload)
+    for row in range(0, len(df)):
+        if df.loc[row, 'ap_lo_new'] < 30:
+            print(row)
+            print(df.loc[row, 'ap_lo_new'])
+        elif df.loc[row, 'ap_lo_new'] > 240:
+            print(row)
+            print(df.loc[row, 'ap_lo_new'])
 
-    if payload is not None:
-        # The API expects a payload of type bytes
-        converted_payload = payload.encode()
+    medication_new = []
 
-        # Add the payload to the request body
-        task['app_engine_http_request']['body'] = converted_payload
+    for row in range(0, len(df)):
+        value = df.loc[row, 'medication']
+        if value not in ['Y', 'N']:
+            if (df.loc[row, 'ap_hi_new'] != 120) or (df.loc[row, 'ap_lo_new'] != 80) or (df.loc[row, 'cardio'] != 0) or (df.loc[row, 'alco'] !=0) or (df.loc[row, 'smoke'] !=0) or (df.loc[row, 'gluc'] > 1) or (df.loc[row, 'cholesterol'] > 1):
+                medication_new.append('Y')
+            else:
+                medication_new.append('N')
+        else:
+            medication_new.append('N')
 
-    # use the client to build and send the task
-    response = client.create_task(parent=parent, task=task)
 
-    return response
+    df['medication_new'] = medication_new
+
+    df.to_csv('MOCK_DATA.csv')
