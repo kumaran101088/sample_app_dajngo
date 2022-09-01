@@ -27,6 +27,7 @@ def success_view(request):
 
 def member_upload_view(request):
     if request.method == 'POST':
+        print('BEFORE convert file')
         read_convert_file(request.FILES.get('file'))
         return redirect('success_view')
     return render(request, 'html_files/index.html')
