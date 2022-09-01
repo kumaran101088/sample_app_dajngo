@@ -50,5 +50,6 @@ def read_convert_file(filename):
 
 
     df['medication_new'] = medication_new
-
+    print('BEFORE')
     df.to_csv('MOCK_DATA.csv')
+    print('AFTER')
