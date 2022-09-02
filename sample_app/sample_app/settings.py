@@ -126,6 +126,5 @@ STATIC_ROOT = 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-PROJECT_NAME = 'sample-groi'
-QUEUE_REGION = 'asia-south1'
-QUEUE_ID = 'another-example-queue'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'my-fourth-bucket'
