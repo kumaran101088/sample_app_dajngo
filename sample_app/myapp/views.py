@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
 
-df = pd.read_csv(r'C:\Users\Kumaran\Desktop\dailySteps_merged.csv', low_memory=False)
+# df = pd.read_csv(r'C:\Users\Kumaran\Desktop\dailySteps_merged.csv', low_memory=False)
 
 def home(request):
     members = Member.objects.all()
