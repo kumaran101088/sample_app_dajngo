@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Hello, Risk score is {{ risk_score }}</h1>
+    <h1>Hello, Risk score is <span id="score"></span></h1>
 </body>
+<script src="{% static 'myapp/jsfiles/main.js' %}"></script>
 </html>

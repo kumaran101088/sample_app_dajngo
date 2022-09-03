@@ -11,21 +11,21 @@ from rest_framework import status
 # df = pd.read_csv(r'C:\Users\Kumaran\Desktop\dailySteps_merged.csv', low_memory=False)
 
 def home(request):
-    members = Member.objects.all()
-    individual_scores, percentile_scores = [], []
-    for member in members:
-        bmi = round((member.weight/(member.height*member.height)) * 10000)
-        medication = 1 if member.medication == 'Y' else 0
-        bp = round((member.st_bp+member.dy_bp)/2)
-        score = (bmi*10) + (member.smoke*10) + (medication*10) + (member.alco*10) + (member.age*10) + (member.active*10) + (member.cardio*20) + (bp*10) + (member.gluc*10)
-        individual_scores.append(score)
-    for score in individual_scores:
-        percentile_scores.append(round((len(list(filter(lambda x : x < score, individual_scores)))/len(individual_scores)) * 100))
-    risk_score = statistics.median(percentile_scores)
-    context = {
-        'risk_score': risk_score
-    }
-    return render(request, 'html_files/index.html', context)
+    # members = Member.objects.all()
+    # individual_scores, percentile_scores = [], []
+    # for member in members:
+    #     bmi = round((member.weight/(member.height*member.height)) * 10000)
+    #     medication = 1 if member.medication == 'Y' else 0
+    #     bp = round((member.st_bp+member.dy_bp)/2)
+    #     score = (bmi*10) + (member.smoke*10) + (medication*10) + (member.alco*10) + (member.age*10) + (member.active*10) + (member.cardio*20) + (bp*10) + (member.gluc*10)
+    #     individual_scores.append(score)
+    # for score in individual_scores:
+    #     percentile_scores.append(round((len(list(filter(lambda x : x < score, individual_scores)))/len(individual_scores)) * 100))
+    # risk_score = statistics.median(percentile_scores)
+    # context = {
+    #     'risk_score': risk_score
+    # }
+    return render(request, 'html_files/index.html')
 
 def member_view(request, id):
     try:
@@ -49,8 +49,18 @@ def member_view(request, id):
 
 @api_view(['GET'])
 def total_risk_score(request):
-    time.sleep(10)
-    return Response({'Message' : 'Hello World'}, status=status.HTTP_200_OK)
+    members = Member.objects.all()
+    individual_scores, percentile_scores = [], []
+    for member in members:
+        bmi = round((member.weight/(member.height*member.height)) * 10000)
+        medication = 1 if member.medication == 'Y' else 0
+        bp = round((member.st_bp+member.dy_bp)/2)
+        score = (bmi*10) + (member.smoke*10) + (medication*10) + (member.alco*10) + (member.age*10) + (member.active*10) + (member.cardio*20) + (bp*10) + (member.gluc*10)
+        individual_scores.append(score)
+    for score in individual_scores:
+        percentile_scores.append(round((len(list(filter(lambda x : x < score, individual_scores)))/len(individual_scores)) * 100))
+    risk_score = statistics.median(percentile_scores)
+    return Response({'risk score' : risk_score}, status=status.HTTP_200_OK)
 
 def convert(request):
     # for row in range(311, len(df)):
