@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@3^=_2+%w$j4s+&jr4mx=di(t8&n-o4%(h)&&qeu=03kn0vn8^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', '127.0.0.1']
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +50,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'sample_app.urls'
 
@@ -83,8 +87,8 @@ DATABASES = {
        'NAME': 'member_db',
        'USER': 'postgres',
        'PASSWORD': 'password',
-    #    'HOST': '34.70.165.125',
-       'HOST': '/cloudsql/sample-groi:us-central1:sample-db',
+       'HOST': '34.70.165.125',
+    #    'HOST': '/cloudsql/sample-groi:us-central1:sample-db',
     }
 }
 
@@ -124,6 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'myapp/static')
+]
 STATIC_ROOT = 'static'
 
 # Default primary key field type
