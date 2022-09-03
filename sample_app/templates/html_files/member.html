@@ -10,8 +10,87 @@
 </head>
 <body>
     <h1>{{ member.member_id }}</h1>
-    <h3>risk score <span id="risk-score"></span></h3>
+    <h3>Member Risk Score: <span id="risk-score"></span></h3>
+
+    {% if member.gender == 1 %}
+        <p>Male</p>
+    {% else %}
+        <p>Female</p>
+    {% endif %}
+    <p>Height: {{ member.height }} cms</p>
+    <p>Weight: {{ member.weight }} kgs</p>
+    <p>Systolic {{ member.st_bp }} mmHg</p>
+    <p>Diastolic {{ member.dy_bp }} mmHg</p>
+    {% if member.smoke == 1 %}
+        <p>Smoker: Yes</p>
+    {% else %}
+        <p>Smoker: No</p>
+    {% endif %}
+    {% if member.alco == 1 %}
+        <p>Alcoholic: Yes</p>
+    {% else %}
+        <p>Alcoholic: Yes</p>
+    {% endif %}
+    {% if member.cardio == 1 %}
+        <p>Heart Disease: Yes</p>
+    {% else %}
+        <p>Heart Disease: No</p>
+    {% endif %}
+    {% if member.active == 1 %}
+        <p>Physical Activity: Yes</p>
+    {% else %}
+        <p>Physical Activity: No</p>
+    {% endif %}
+    {% if member.medication == 'Y' %}
+        <p>Medication: Yes</p>
+    {% else %}
+        <p>Medication: No</p>
+    {% endif %}
+    {% if member.gluc == 1 %}
+        <p>Glucose: Normal</p>
+    {% elif member.gluc == 2 %}
+        <p>Glucose: Medium</p>
+    {% else %}
+        <p>Glucose: High</p>
+    {% endif %}
+    {% if member.chol == 1 %}
+        <p>Cholesterol: Normal</p>
+    {% elif member.gluc == 2 %}
+        <p>Cholesterol: Medium</p>
+    {% else %}
+        <p>Cholesterol: High</p>
+    {% endif %}
+
+    <div id="charts" style="width:900px;height:500px;cursor:pointer;">
+        <canvas id="steps"></canvas>
+    </div>
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var config = {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: {{recent_steps|safe}},
+          backgroundColor: '#6741d9',
+          label: 'Steps'
+        }],
+        labels: {{recent_dates|safe}}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    window.onload = function() {
+      var ctxSteps = document.getElementById('steps').getContext('2d');
+      window.steps = new Chart(ctxSteps, config);
+    };
+
+  </script>
+
 <script>
 
     let riskScore;

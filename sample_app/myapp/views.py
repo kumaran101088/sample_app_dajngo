@@ -11,14 +11,53 @@ from rest_framework import status
 # df = pd.read_csv(r'C:\Users\Kumaran\Desktop\dailySteps_merged.csv', low_memory=False)
 
 def home(request):
-    return render(request, 'html_files/index.html')
+
+    smokers = Member.objects.filter(smoke=1).count()
+    non_smokers = Member.objects.filter(smoke=0).count()
+    alcoholics = Member.objects.filter(alco=1).count()
+    non_alcoholics = Member.objects.filter(alco=0).count()
+    female = Member.objects.filter(gender=2).count()
+    male = Member.objects.filter(gender=1).count()
+    total_members = Member.objects.all().count()
+    context = {
+        'smokers' : smokers,
+        'non_smokers' : non_smokers,
+        'alcoholics' : alcoholics,
+        'non_alcoholics' : non_alcoholics,
+        'female' : female,
+        'male' : male,
+        'total_members' : total_members
+    }
+
+    return render(request, 'html_files/index.html', context)
 
 def member_view(request, id):
     try:
         ind_member = Member.objects.filter(member_id=id)[0]
+        activities = Activity.objects.filter(patient=ind_member).order_by('-a_date')[:9]
+        recent_steps = [activity.steps for activity in activities]
+        recent_dates = [activity.a_date.strftime("%d/%m/%Y") for activity in activities]
+
+        # for activity in activities:
+        #     members = len(Activity.objects.filter(patient=ind_member).filter(a_date=activity.a_date))
+        #     print(members)
+        #     if members > 1:
+        #         print(Activity.objects.filter(patient=ind_member).filter(a_date=activity.a_date).last().delete())
+
+        #     if activity.date not in filetred_activities:
+        #         filetred_activities.append(activity)
+        # for activity in filetred_activities:
+        #     print(activity.steps)
+
+        context = {
+            'member':ind_member,
+            'recent_steps' : recent_steps,
+            'recent_dates' : recent_dates
+        }
+
     except:
         return render(request, 'html_files/not_found.html')
-    return render(request, 'html_files/member.html', {'member':ind_member})
+    return render(request, 'html_files/member.html', context)
 
 @api_view(['GET'])
 def individual_risk_score(request, id):

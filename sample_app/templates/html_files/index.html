@@ -5,39 +5,85 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'myapp/cssfiles/main.css' %}">
     <title>Home</title>
 </head>
 <body>
     <h1>Median risk score is <span id="median-score"></span></h1>
     <h1>Average risk score is <span id="average-score"></span></h1>
-    <div style="width:500px;height:500px;cursor:pointer;">
-        <canvas id="myChart"></canvas>
+    <div id="charts" style="width:500px;height:500px;cursor:pointer;">
+        <canvas id="cholestrol"></canvas>
+        <canvas id="smokers"></canvas>
+        <canvas id="alcoholics"></canvas>
+        <canvas id="gender"></canvas>
     </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- smokers -->
+
 <script>
-    var config = {
+    var config1 = {
       type: 'bar',
       data: {
         datasets: [{
-          data: [50, 100],
-          backgroundColor: ['#696969', '#808080'],
-          label: 'Population'
+          data: ['{{smokers}}', '{{non_smokers}}'],
+          backgroundColor: ['#343a40', '#6741d9'],
+          label: 'Smoke'
         }],
-        labels: ['Hello', 'Here']
+        labels: ['Smokers', 'Non Smokers']
       },
       options: {
         responsive: true
       }
     };
 
-    window.onload = function() {
-      var ctx = document.getElementById('myChart').getContext('2d');
-      window.myPie = new Chart(ctx, config);
+    var config2 = {
+      type: 'bar',
+      data: {
+        datasets: [{
+          data: ['{{non_alcoholics}}', '{{alcoholics}}'],
+          backgroundColor: ['#343a40', '#6741d9'],
+          label: 'Alcohol'
+        }],
+        labels: ['Alcholic', 'Non Alcoholic']
+      },
+      options: {
+        responsive: true
+      }
     };
+
+    var config3 = {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: ['{{male}}', '{{female}}'],
+          backgroundColor: ['#343a40', '#6741d9'],
+          label: 'Gender'
+        }],
+        labels: ['Male', 'Female']
+      },
+      options: {
+        responsive: false
+      }
+    };
+
+    window.onload = function() {
+      var ctxSmoke = document.getElementById('smokers').getContext('2d');
+      var ctxAlcohol = document.getElementById('alcoholics').getContext('2d');
+      var ctxGender = document.getElementById('gender').getContext('2d');
+      window.smoke = new Chart(ctxSmoke, config1);
+      window.alcohol = new Chart(ctxAlcohol, config2);
+      window.gender = new Chart(ctxGender, config3);
+    };
+
   </script>
+
+<!-- alcoholics -->
+
+
+
 
 
 <script src="{% static 'myapp/jsfiles/main.js' %}"></script>

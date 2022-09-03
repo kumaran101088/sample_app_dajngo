@@ -3,3 +3,17 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+body{
+    background-color: #f1f3f5;
+}
+
+#charts{
+    display: flex;
+    
+}
+
+#gender{
+    width: 250px;
+    height: 150px;
+}
