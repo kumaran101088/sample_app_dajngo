@@ -87,8 +87,8 @@ DATABASES = {
        'NAME': 'member_db',
        'USER': 'postgres',
        'PASSWORD': 'password',
-    #    'HOST': '34.70.165.125',
-       'HOST': '/cloudsql/sample-groi:us-central1:sample-db',
+       'HOST': '34.70.165.125',
+    #    'HOST': '/cloudsql/sample-groi:us-central1:sample-db',
     }
 }
 

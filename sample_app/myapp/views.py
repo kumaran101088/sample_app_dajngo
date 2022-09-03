@@ -34,7 +34,7 @@ def member_view(request, id):
     return render(request, 'html_files/member.html', {'member':ind_member})
 
 @api_view(['GET'])
-def individual_risk_score(request):
+def individual_risk_score(request, id):
     try:
         ind_member = Member.objects.filter(member_id=id)[0]
         ind_bmi = round((ind_member.weight/(ind_member.height*ind_member.height)) * 10000)

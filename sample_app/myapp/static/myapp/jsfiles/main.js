@@ -12,7 +12,7 @@ fetch('https://sample-groi.el.r.appspot.com/trs/')
         }
     })
     .then(data => {
-        console.log(data['risk_score'], data['average_risk_score']);
+        console.log(data['median_risk_score'], data['average_risk_score']);
         medianScore = data['median_risk_score'];
         averageScore = data['average_risk_score'];
         medianScoreLabel.textContent = medianScore;
