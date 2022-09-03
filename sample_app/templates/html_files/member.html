@@ -10,6 +10,31 @@
 </head>
 <body>
     <h1>{{ member.member_id }}</h1>
-    <h3>risk score {{ risk_score }}</h3>
+    <h3>risk score <span id="risk-score"></span></h3>
 </body>
+<script>
+
+    let riskScore;
+
+    const riskScoreLabel = document.getElementById('risk-score');
+
+    function getMemberScore (id) {
+        console.log(id);
+        fetch(`https://sample-groi.el.r.appspot.com/irs/${Number(id)}`)
+        .then(response => {
+            if (response.status === 200){
+                return response.json();
+            }
+        })
+        .then(data => {
+            console.log(data['risk_score']);
+            riskScore = data['risk_score'];
+            riskScoreLabel.textContent = riskScore;
+        })
+        .catch(err => console.log(err));
+    }
+
+    getMemberScore("{{ member.member_id }}");
+    
+</script>
 </html>
