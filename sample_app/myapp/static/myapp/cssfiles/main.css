@@ -5,7 +5,7 @@
 }
 
 body{
-    background-color: #f1f3f5;
+    background-color: #e9ecef;
 }
 
 #charts{
@@ -16,4 +16,57 @@ body{
 #gender{
     width: 250px;
     height: 150px;
+}
+
+#charts-member{
+    margin-left: 2.5rem;
+    margin-top: 0rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#cards{
+    display: flex;
+    gap: 2rem;
+    margin-left: 1.75em;
+}
+
+#header-member{
+    display: flex;
+    justify-content: center;
+    gap: 30rem;
+    align-items: center;
+    color: #5f3dc4;
+    /* margin-top: 1rem; */
+    font-weight: bold;
+}
+
+#member-body{
+    display: flex;
+    margin-top: 4rem;
+    gap: 3rem;
+}
+
+#title{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #5f3dc4;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-title{
+    color: #5f3dc4;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.card-text{
+    font-size: 0.95rem;
+    font-weight: bold;
 }

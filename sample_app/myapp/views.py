@@ -34,6 +34,8 @@ def home(request):
 def member_view(request, id):
     try:
         ind_member = Member.objects.filter(member_id=id)[0]
+        total_activities = Activity.objects.filter(patient=ind_member)
+        total_steps = sum([activity.steps for activity in total_activities])
         activities = Activity.objects.filter(patient=ind_member).order_by('-a_date')[:9]
         recent_steps = [activity.steps for activity in activities]
         recent_dates = [activity.a_date.strftime("%d/%m/%Y") for activity in activities]
@@ -50,9 +52,10 @@ def member_view(request, id):
         #     print(activity.steps)
 
         context = {
-            'member':ind_member,
+            'member': ind_member,
             'recent_steps' : recent_steps,
-            'recent_dates' : recent_dates
+            'recent_dates' : recent_dates,
+            'total_steps' : total_steps
         }
 
     except:
