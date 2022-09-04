@@ -36,6 +36,10 @@ def member_view(request, id):
         ind_member = Member.objects.filter(member_id=id)[0]
         total_activities = Activity.objects.filter(patient=ind_member)
         total_steps = sum([activity.steps for activity in total_activities])
+        member_active = 1
+        if ind_member.active == 0:
+            if total_steps/len(total_activities) < 7000:
+                member_active = 0
         activities = Activity.objects.filter(patient=ind_member).order_by('-a_date')[:9]
         recent_steps = [activity.steps for activity in activities]
         recent_dates = [activity.a_date.strftime("%d/%m/%Y") for activity in activities]
@@ -55,7 +59,8 @@ def member_view(request, id):
             'member': ind_member,
             'recent_steps' : recent_steps,
             'recent_dates' : recent_dates,
-            'total_steps' : total_steps
+            'total_steps' : total_steps,
+            'member_active' : member_active,
         }
 
     except:

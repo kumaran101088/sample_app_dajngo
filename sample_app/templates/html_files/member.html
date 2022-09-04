@@ -11,9 +11,12 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-          <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="collapse navbar-collapse">
+            <a class="navbar-brand" href="#">
+                <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24">
+              </a>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
@@ -22,8 +25,13 @@
                 <a class="nav-link active" aria-current="page" href="#">Search</a>
               </li>
             </ul>
+            <div class="collapse navbar-collapse" id="navbarRight">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Logout</a>
+                  </li>
+                </ul>
           </div>
-          
         </div>
       </nav>
     
@@ -31,8 +39,8 @@
         
         <div id="charts-member" style="width:1000px;height:500px;cursor:pointer;">
             <div id="header-member">
-              <p>Member ID: {{ member.member_id }}</p>
-              <p>Risk Score: <span id="risk-score"></span></p>
+              <p>Member ID: <span class="cosmetic">{{ member.member_id }}</span></p>
+              <p>Risk Score: <span id="risk-score" class="cosmetic"></span></p>
             </div>
             <canvas id="steps"></canvas>
               <div id="title">
@@ -47,13 +55,13 @@
                     <p class="card-title">About</p>
                     <hr>
                     {% if member.gender == 1 %}
-                        <p class="card-text">Gender: <span>Male</span></p>
+                        <p class="card-text">Gender: <span class="cosmetic">Male</span></p>
                     {% else %}
-                        <p class="card-text">Gender: <span>Female</span></p>
+                        <p class="card-text">Gender: <span class="cosmetic">Female</span></p>
                     {% endif %}
-                    <p class="card-text">Height: {{ member.height }} cms</p>
-                    <p class="card-text">Weight: {{ member.weight }} kgs</p>
-                    <p class="card-text">Age: {{ member.age }}</p>
+                    <p class="card-text">Height: <span class="cosmetic">{{ member.height }} cms</span></p>
+                    <p class="card-text">Weight: <span class="cosmetic">{{ member.weight }} kgs</span></p>
+                    <p class="card-text">Age: <span class="cosmetic">{{ member.age }}</span></p>
                 </div>
                 <br>
             </div>
@@ -61,22 +69,22 @@
                 <div class="card-body">
                     <h5 class="card-title">Stats</h5>
                     <hr>
-                    <p class="card-text">Systolic: {{ member.st_bp }} mmHg</p>
-                    <p class="card-text">Diastolic: {{ member.dy_bp }} mmHg</p>
+                    <p class="card-text">Systolic: <span class="cosmetic">{{ member.st_bp }} mmHg</span></p>
+                    <p class="card-text">Diastolic: <span class="cosmetic">{{ member.dy_bp }} mmHg</span></p>
                     
                     {% if member.gluc == 1 %}
-                        <p class="card-text">Glucose: Normal</p>
+                        <p class="card-text">Glucose: <span class="cosmetic">Normal</span></p>
                     {% elif member.gluc == 2 %}
-                        <p class="card-text">Glucose: Medium</p>
+                        <p class="card-text">Glucose: <span class="cosmetic">Medium</span></p>
                     {% else %}
-                        <p class="card-text">Glucose: High</p>
+                        <p class="card-text">Glucose: <span class="cosmetic">High</span></p>
                     {% endif %}
                     {% if member.chol == 1 %}
-                        <p class="card-text">Cholesterol: Normal</p>
+                        <p class="card-text">Cholesterol: <span class="cosmetic">Normal</span></p>
                     {% elif member.gluc == 2 %}
-                        <p class="card-text">Cholesterol: Medium</p>
+                        <p class="card-text">Cholesterol: <span class="cosmetic">Medium</span></p>
                     {% else %}
-                        <p class="card-text">Cholesterol: High</p>
+                        <p class="card-text">Cholesterol: <span class="cosmetic">High</span></p>
                     {% endif %}
                 </div>
             </div>
@@ -85,24 +93,24 @@
                     <h5 class="card-title">Condition</h5>
                     <hr>
                     {% if member.smoke == 1 %}
-                        <p class="card-text">Smoker: Yes</p>
+                        <p class="card-text">Smoker: <span class="cosmetic">Yes</span></p>
                     {% else %}
-                        <p class="card-text">Smoker: No</p>
+                        <p class="card-text">Smoker: <span class="cosmetic">No</span></p>
                     {% endif %}
                     {% if member.alco == 1 %}
-                        <p class="card-text">Alcoholic: Yes</p>
+                        <p class="card-text">Alcoholic: <span class="cosmetic">Yes</span></p>
                     {% else %}
-                        <p class="card-text">Alcoholic: Yes</p>
+                        <p class="card-text">Alcoholic: <span class="cosmetic">Yes</span></p>
                     {% endif %}
                     {% if member.cardio == 1 %}
-                        <p class="card-text">Heart Disease: Yes</p>
+                        <p class="card-text">Heart Disease: <span class="cosmetic">Yes</span></p>
                     {% else %}
-                        <p class="card-text">Heart Disease: No</p>
+                        <p class="card-text">Heart Disease: <span class="cosmetic">No</span></p>
                     {% endif %}
                     {% if member.medication == 'Y' %}
-                        <p class="card-text">Medication: Yes</p>
+                        <p class="card-text">Medication: <span class="cosmetic">Yes</span></p>
                     {% else %}
-                        <p class="card-text">Medication: No</p>
+                        <p class="card-text">Medication: <span class="cosmetic">No</span></p>
                     {% endif %}
                 </div>
             </div>
@@ -110,15 +118,15 @@
                 <div class="card-body">
                     <h5 class="card-title">Activity<h5>
                     <hr>
-                    {% if member.active == 1 %}
-                        <p class="card-text">Physical Activity: Yes</p>
+                    {% if member_active == 1 %}
+                        <p class="card-text">Physical Activity: <span class="cosmetic">Yes</span></p>
                     {% else %}
-                        <p class="card-text">Physical Activity: No</p>
+                        <p class="card-text">Physical Activity: <span class="cosmetic">No</span></p>
                     {% endif %}
                     {% if total_steps %}
-                        <p class="card-text">Total Steps: {{total_steps}}</p>
+                        <p class="card-text">Total Steps: <span class="cosmetic">{{total_steps}}</span></p>
                     {% else %}
-                        <p class="card-text">Total Steps: 0</p>    
+                        <p class="card-text">Total Steps: <span class="cosmetic">0</span></p>    
                     {% endif %}
                 </div>
             </div>    
@@ -137,8 +145,8 @@
       data: {
         datasets: [{
           data: {{recent_steps|safe}},
-          borderColor: '#5f3dc4',
-          backgroundColor: '#5f3dc4',
+          borderColor: '#22b8cf',
+          backgroundColor: '#22b8cf',
           tension: 0.1,
           label: 'Steps',
           pointRadius: 5

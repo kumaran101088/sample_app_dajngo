@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+
 *{
     padding: 0;
     margin: 0;
@@ -5,7 +7,7 @@
 }
 
 body{
-    background-color: #e9ecef;
+    font-family: 'Roboto', sans-serif;
 }
 
 #charts{
@@ -37,7 +39,7 @@ body{
     justify-content: center;
     gap: 30rem;
     align-items: center;
-    color: #5f3dc4;
+    color: #495057;
     /* margin-top: 1rem; */
     font-weight: bold;
 }
@@ -53,7 +55,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #5f3dc4;
+    color: #1098ad;
     font-size: 0.85rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -61,7 +63,7 @@ body{
 }
 
 .card-title{
-    color: #5f3dc4;
+    color: #1098ad;
     font-size: 1rem;
     font-weight: bolder;
 }
@@ -69,4 +71,25 @@ body{
 .card-text{
     font-size: 0.95rem;
     font-weight: bold;
+}
+
+#navbarRight{
+    padding-left: 60rem;
+}
+
+
+.cosmetic{
+    color: #1098ad;
+    font-weight: bold;
+}
+
+.main-charts{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-around;
+}
+
+.bar-chart{
+    height: 250px;
 }
