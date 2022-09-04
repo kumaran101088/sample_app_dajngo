@@ -86,10 +86,63 @@ body{
 .main-charts{
     display: flex;
     align-items: center;
-    gap: 2rem;
-    justify-content: space-around;
+    gap: 7rem;
+    justify-content: center;
+    cursor: pointer;
+    height: 85vh;
+    width: 100vw;
 }
 
 .bar-chart{
-    height: 250px;
+    height: 400px;
+}
+
+#gender{
+    width: 300px;
+}
+
+.main-charts-1{
+    display: flex;
+    gap: 2rem;
+}
+
+#cholestrol{
+    height: 150px;
+}
+
+#table{
+    width: 300px;
+}
+
+.title{
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #1098ad;
+    font-weight: bold;
+    color: #495057;
+}
+
+.topic{
+    font-weight: bold;
+    color: #495057;
+}
+
+.label{
+    font-weight: bold;
+    color: #1098ad;
+}
+
+#not-found{
+    color: #495057;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    height: 80vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
