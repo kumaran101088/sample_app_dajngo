@@ -11,16 +11,20 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from google.cloud import secretmanager
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'sample-groi-ec80f9674098.json'
+
+client = secretmanager.SecretManagerServiceClient()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@3^=_2+%w$j4s+&jr4mx=di(t8&n-o4%(h)&&qeu=03kn0vn8^'
+SECRET_KEY = client.access_secret_version(name='projects/sample-groi/secrets/secretKey/versions/latest').payload.data.decode('UTF-8').strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -83,12 +88,12 @@ WSGI_APPLICATION = 'sample_app.wsgi.application'
 
 DATABASES = {
     'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'member_db',
-       'USER': 'postgres',
-       'PASSWORD': 'password',
-    #    'HOST': '34.70.165.125',
-       'HOST': '/cloudsql/sample-groi:us-central1:sample-db',
+       'ENGINE': client.access_secret_version(name='projects/sample-groi/secrets/dbEngine/versions/latest').payload.data.decode('UTF-8').strip(),
+       'NAME': client.access_secret_version(name='projects/sample-groi/secrets/dbName/versions/latest').payload.data.decode('UTF-8').strip(),
+       'USER': client.access_secret_version(name='projects/sample-groi/secrets/userName/versions/latest').payload.data.decode('UTF-8').strip(),
+       'PASSWORD': client.access_secret_version(name='projects/sample-groi/secrets/password/versions/latest').payload.data.decode('UTF-8').strip(),
+    #    'HOST': client.access_secret_version(name='projects/sample-groi/secrets/localHost/versions/latest').payload.data.decode('UTF-8').strip(),
+       'HOST': client.access_secret_version(name='projects/sample-groi/secrets/host/versions/latest').payload.data.decode('UTF-8').strip(),
     }
 }
 

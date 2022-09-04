@@ -1,16 +1,16 @@
 import pandas as pd
+from rest_framework import status
 import datetime, statistics, time
+from .filters import MemberFilter
 from .models import Member, Activity
 from django.http import JsonResponse
+from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-# Create your views here.
 
 # df = pd.read_csv(r'C:\Users\Kumaran\Desktop\dailySteps_merged.csv', low_memory=False)
 
-def home(request):
+def home_view(request):
 
     smokers = Member.objects.filter(smoke=1).count()
     alcoholics = Member.objects.filter(alco=1).count()
@@ -36,8 +36,16 @@ def home(request):
 
     return render(request, 'html_files/index.html', context)
 
-def search(request):
-    return render(request, 'html_files/search.html')
+def search_view(request):
+    if request.method == 'POST':
+        try:
+            value = int(request.POST.get('search'))
+            ind_member = Member.objects.filter(member_id=value)[0]
+        except Exception as e:
+            return render(request, 'html_files/not_found.html')
+        return redirect('member_view', ind_member.member_id)
+    else:
+        return render(request, 'html_files/search.html')
 
 def member_view(request, id):
     try:
@@ -51,6 +59,7 @@ def member_view(request, id):
         activities = Activity.objects.filter(patient=ind_member).order_by('-a_date')[:9]
         recent_steps = [activity.steps for activity in activities]
         recent_dates = [activity.a_date.strftime("%d/%m/%Y") for activity in activities]
+        age = 2016 - (datetime.date(2016, 12, 5) - datetime.timedelta(days=ind_member.age)).year
 
         # for activity in activities:
                 # ind_member = Member.objects.filter(member_id=id)[0]
@@ -66,6 +75,7 @@ def member_view(request, id):
             'recent_dates' : recent_dates,
             'total_steps' : total_steps,
             'member_active' : member_active,
+            'age' : age,
         }
 
     except:
@@ -76,10 +86,11 @@ def member_view(request, id):
 def individual_risk_score(request, id):
     try:
         ind_member = Member.objects.filter(member_id=id)[0]
+        age = 2016 - (datetime.date(2016, 12, 5) - datetime.timedelta(days=ind_member.age)).year
         ind_bmi = round((ind_member.weight/(ind_member.height*ind_member.height)) * 10000)
         ind_medication = 1 if ind_member.medication == 'Y' else 0
         ind_bp = round((ind_member.st_bp+ind_member.dy_bp)/2)
-        individual_score = (ind_bmi*10) + (ind_member.smoke*10) + (ind_medication*10) + (ind_member.alco*10) + (ind_member.age*10) + (ind_member.active*10) + (ind_member.cardio*20) + (ind_bp*10) + (ind_member.gluc*10)
+        individual_score = (ind_bmi*10) + (ind_member.smoke*10) + (ind_medication*10) + (ind_member.alco*10) + (age*10) + (ind_member.active*10) + (ind_member.cardio*20) + (ind_bp*10) + (ind_member.gluc*10)
     except:
         pass
     members = Member.objects.all()
@@ -88,7 +99,8 @@ def individual_risk_score(request, id):
         bmi = round((member.weight/(member.height*member.height)) * 10000)
         medication = 1 if member.medication == 'Y' else 0
         bp = round((member.st_bp+member.dy_bp)/2)
-        score = (bmi*10) + (member.smoke*10) + (medication*10) + (member.alco*10) + (member.age*10) + (member.active*10) + (member.cardio*20) + (bp*10) + (member.gluc*10)
+        age = 2016 - (datetime.date(2016, 12, 5) - datetime.timedelta(days=member.age)).year
+        score = (bmi*10) + (member.smoke*10) + (medication*10) + (member.alco*10) + (age*10) + (member.active*10) + (member.cardio*20) + (bp*10) + (member.gluc*10)
         individual_scores.append(score)
     risk_score = round((len(list(filter(lambda x : x < individual_score, individual_scores)))/len(individual_scores)) * 100)
     return Response({'risk_score' : risk_score}, status=status.HTTP_200_OK)
@@ -98,10 +110,11 @@ def total_risk_score(request):
     members = Member.objects.all()
     individual_scores, percentile_scores = [], []
     for member in members:
+        age = 2016 - (datetime.date(2016, 12, 5) - datetime.timedelta(days=member.age)).year
         bmi = round((member.weight/(member.height*member.height)) * 10000)
         medication = 1 if member.medication == 'Y' else 0
         bp = round((member.st_bp+member.dy_bp)/2)
-        score = (bmi*10) + (member.smoke*10) + (medication*10) + (member.alco*10) + (member.age*10) + (member.active*10) + (member.cardio*20) + (bp*10) + (member.gluc*10)
+        score = (bmi*10) + (member.smoke*10) + (medication*10) + (member.alco*10) + (age*10) + (member.active*10) + (member.cardio*20) + (bp*10) + (member.gluc*10)
         individual_scores.append(score)
     for score in individual_scores:
         percentile_scores.append(round((len(list(filter(lambda x : x < score, individual_scores)))/len(individual_scores)) * 100))
