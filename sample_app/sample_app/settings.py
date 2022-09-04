@@ -16,7 +16,7 @@ from google.cloud import secretmanager
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'sample-groi-ec80f9674098.json'
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'sample-groi-ec80f9674098.json'
 
 client = secretmanager.SecretManagerServiceClient()
 
