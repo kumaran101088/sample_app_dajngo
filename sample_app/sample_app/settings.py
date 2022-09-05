@@ -27,7 +27,7 @@ client = secretmanager.SecretManagerServiceClient()
 SECRET_KEY = client.access_secret_version(name='projects/sample-groi/secrets/secretKey/versions/latest').payload.data.decode('UTF-8').strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*', '127.0.0.1']
 
@@ -88,12 +88,17 @@ WSGI_APPLICATION = 'sample_app.wsgi.application'
 
 DATABASES = {
     'default': {
+        # 'ENGINE' : 'django.db.backends.postgresql',
        'ENGINE': client.access_secret_version(name='projects/sample-groi/secrets/dbEngine/versions/latest').payload.data.decode('UTF-8').strip(),
+    # 'NAME' : 'member_db',
        'NAME': client.access_secret_version(name='projects/sample-groi/secrets/dbName/versions/latest').payload.data.decode('UTF-8').strip(),
+    # 'USER' : 'postgres',
        'USER': client.access_secret_version(name='projects/sample-groi/secrets/userName/versions/latest').payload.data.decode('UTF-8').strip(),
+    # 'PASSWORD' :'password',
        'PASSWORD': client.access_secret_version(name='projects/sample-groi/secrets/password/versions/latest').payload.data.decode('UTF-8').strip(),
-    #    'HOST': client.access_secret_version(name='projects/sample-groi/secrets/localHost/versions/latest').payload.data.decode('UTF-8').strip(),
-       'HOST': client.access_secret_version(name='projects/sample-groi/secrets/host/versions/latest').payload.data.decode('UTF-8').strip(),
+    # 'HOST' : '34.70.165.125'
+       'HOST': client.access_secret_version(name='projects/sample-groi/secrets/localHost/versions/latest').payload.data.decode('UTF-8').strip(),
+    #    'HOST': client.access_secret_version(name='projects/sample-groi/secrets/host/versions/latest').payload.data.decode('UTF-8').strip(),
     }
 }
 

@@ -5,7 +5,6 @@ urlpatterns = [
 
     #TEMPLATES
     path('home/', home_view, name='home'),
-    path('add/', convert, name='add'),
     path('search/', search_view, name='search'),
     path('member/<int:id>', member_view, name='member_view'),
 
