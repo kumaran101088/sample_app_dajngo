@@ -27,7 +27,7 @@ client = secretmanager.SecretManagerServiceClient()
 SECRET_KEY = client.access_secret_version(name='projects/sample-groi/secrets/secretKey/versions/latest').payload.data.decode('UTF-8').strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', '127.0.0.1']
 

@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 
+# df = pd.read_csv(r'C:\Users\Kumaran\Desktop\dailySteps_merged.csv', low_memory=False)
 
 def home_view(request):
 
@@ -124,4 +125,17 @@ def total_risk_score(request):
     average_risk_score = round(sum(percentile_scores)/len(percentile_scores))
     return Response({'median_risk_score' : median_risk_score, 'average_risk_score' : average_risk_score}, status=status.HTTP_200_OK)
 
+def convert(request):
+    # for row in range(311, len(df)):
+    #     date = df.loc[row, 'ActivityDay'].split('/')
+    #     new_date = datetime.date(int(date[-1]), int(date[0]), int(date[1]))
+    #     if Member.objects.filter(member_id=df.loc[row, 'member_id']).exists():
+    #         activity = Activity(
+    #             patient = Member.objects.filter(member_id=df.loc[row, 'member_id'])[0],
+    #             a_date = new_date,
+    #             steps = df.loc[row, 'StepTotal']
+    #         )
+    #         print(row, Member.objects.filter(member_id=df.loc[row, 'member_id'])[0], new_date, df.loc[row, 'StepTotal'])
+    #         activity.save()
+    return render(request, 'html_files/home.html')
 
