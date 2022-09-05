@@ -97,8 +97,8 @@ DATABASES = {
     # 'PASSWORD' :'password',
        'PASSWORD': client.access_secret_version(name='projects/sample-groi/secrets/password/versions/latest').payload.data.decode('UTF-8').strip(),
     # 'HOST' : '34.70.165.125'
-       'HOST': client.access_secret_version(name='projects/sample-groi/secrets/localHost/versions/latest').payload.data.decode('UTF-8').strip(),
-    #    'HOST': client.access_secret_version(name='projects/sample-groi/secrets/host/versions/latest').payload.data.decode('UTF-8').strip(),
+    #    'HOST': client.access_secret_version(name='projects/sample-groi/secrets/localHost/versions/latest').payload.data.decode('UTF-8').strip(),
+       'HOST': client.access_secret_version(name='projects/sample-groi/secrets/host/versions/latest').payload.data.decode('UTF-8').strip(),
     }
 }
 
